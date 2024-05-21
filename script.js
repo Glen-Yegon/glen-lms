@@ -205,3 +205,55 @@ function displayFullName(fullName) {
     // Set the inner HTML of the element to the user's full name
     fullNameElement.textContent = fullName;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const courseForm = document.getElementById('course-form');
+    const selectedCoursesList = document.getElementById('selected-courses-list');
+
+    // Function to save selected courses to the database
+    function saveSelectedCourses(courses) {
+        fetch('/api/save-courses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ courses: courses })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Courses saved successfully:', data);
+            displaySelectedCourses(data.courses);
+        })
+        .catch(error => console.error('Error saving courses:', error));
+    }
+
+    // Function to display selected courses
+    function displaySelectedCourses(courses) {
+        selectedCoursesList.innerHTML = '';
+        courses.forEach(course => {
+            const listItem = document.createElement('li');
+            listItem.textContent = course;
+            selectedCoursesList.appendChild(listItem);
+        });
+    }
+
+    // Load selected courses on page load
+    function loadSelectedCourses() {
+        fetch('/api/get-courses')
+        .then(response => response.json())
+        .then(data => {
+            displaySelectedCourses(data.courses);
+        })
+        .catch(error => console.error('Error loading courses:', error));
+    }
+
+    courseForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(courseForm);
+        const selectedCourses = formData.getAll('courses');
+        saveSelectedCourses(selectedCourses);
+    });
+
+    // Initial load of selected courses
+    loadSelectedCourses();
+});

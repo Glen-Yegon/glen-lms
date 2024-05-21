@@ -166,3 +166,23 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+app.use(bodyParser.json());
+
+let userSelectedCourses = {}; // This will act as our in-memory database
+
+app.post('/api/save-courses', (req, res) => {
+    const userId = req.user.id; // Assuming you have user authentication
+    userSelectedCourses[userId] = req.body.courses;
+    res.json({ success: true, courses: userSelectedCourses[userId] });
+});
+
+app.get('/api/get-courses', (req, res) => {
+    const userId = req.user.id; // Assuming you have user authentication
+    const courses = userSelectedCourses[userId] || [];
+    res.json({ success: true, courses: courses });
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});

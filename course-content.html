@@ -19,6 +19,31 @@
     </header>
     <main id="course-content">
         <!-- Course content will be dynamically populated here -->
+        
+        <!-- Course selection form -->
+        <section id="course-selection">
+            <h2>Select Your Preferred Courses</h2>
+            <form id="course-form">
+                <label>
+                    <input type="checkbox" name="courses" value="course1"> Course 1
+                </label>
+                <label>
+                    <input type="checkbox" name="courses" value="course2"> Course 2
+                </label>
+                <label>
+                    <input type="checkbox" name="courses" value="course3"> Course 3
+                </label>
+                <button type="submit">Save Preferences</button>
+            </form>
+        </section>
+        
+        <!-- Selected courses display -->
+        <section id="selected-courses">
+            <h2>Your Selected Courses</h2>
+            <ul id="selected-courses-list">
+                <!-- Selected courses will be populated here -->
+            </ul>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Your LMS</p>
